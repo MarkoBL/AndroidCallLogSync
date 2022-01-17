@@ -1,0 +1,47 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="@string/sync_header">
+
+        <EditTextPreference
+            app:key="endpoint"
+            app:title="@string/endpoint_title"
+            app:useSimpleSummaryProvider="true" />
+
+        <Preference
+            app:title="@string/test_title"
+            app:key="test"
+            app:summary="@string/test_info"
+            />
+
+        <Preference
+            app:title="@string/setup_title"
+            app:key="setup"
+            app:summary="@string/setup_info"
+            />
+
+        <SwitchPreferenceCompat
+            app:key="sync"
+            app:title="@string/sync_title" />
+
+
+        <EditTextPreference
+            app:key="name"
+            app:title="@string/name_title"
+            app:useSimpleSummaryProvider="true" />
+
+        <Preference
+            app:key="token"
+            app:title="@string/token_title" />
+
+        <Preference
+            app:key="last_id"
+            app:title="@string/last_id_title" />
+
+    </PreferenceCategory>
+    <PreferenceCategory app:title="@string/reset_header">
+        <Preference
+            app:key="reset"
+            app:title="@string/device_reset" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

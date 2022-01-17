@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/MainFragment">
+
+    <fragment
+        android:id="@+id/MainFragment"
+        android:name="com.markobl.callhistory.MainFragment"
+        android:label="@string/main_fragment_label"
+        tools:layout="@layout/fragment_main">
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/LogFragment"
+        android:name="com.markobl.callhistory.LogFragment"
+        android:label="@string/action_log"
+        tools:layout="@layout/fragment_log">
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/SettingsFragment"
+        android:name="com.markobl.callhistory.SettingsFragment"
+        android:label="@string/action_settings"
+        >
+
+    </fragment>
+
+</navigation>

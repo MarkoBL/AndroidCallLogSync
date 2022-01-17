@@ -1,0 +1,20 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.markobl.callhistory.MainActivity">
+    <item
+        android:id="@+id/SettingsFragment"
+        android:orderInCategory="100"
+        android:title="@string/action_settings"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/LogFragment"
+        android:orderInCategory="100"
+        android:title="@string/action_log"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/About"
+        android:orderInCategory="100"
+        android:title="@string/action_about"
+        app:showAsAction="never" />
+</menu>
