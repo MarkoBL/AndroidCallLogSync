@@ -1,4 +1,4 @@
-package com.markobl.callhistory;
+package com.markobl.calllogsync;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.markobl.callhistory.databinding.FragmentLogBinding;
+import com.markobl.calllogsync.databinding.FragmentLogBinding;
 
 import java.text.DateFormat;
 import java.util.List;

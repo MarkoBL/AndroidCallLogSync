@@ -1,27 +1,20 @@
-package com.markobl.callhistory;
+package com.markobl.calllogsync;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.markobl.callhistory.databinding.ActivityMainBinding;
+import com.markobl.calllogsync.databinding.ActivityMainBinding;
 
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
-
-import java.text.DateFormat;
 
 public class MainActivity extends AppCompatActivity {
 

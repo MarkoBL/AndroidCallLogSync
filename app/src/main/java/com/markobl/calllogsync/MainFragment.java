@@ -1,4 +1,4 @@
-package com.markobl.callhistory;
+package com.markobl.calllogsync;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.markobl.callhistory.databinding.FragmentMainBinding;
+import com.markobl.calllogsync.databinding.FragmentMainBinding;
 
 import java.text.DateFormat;
 

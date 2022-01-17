@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     android:versionCode="1"
     android:versionName="1.0.0"
-    package="com.markobl.callhistory">
+    package="com.markobl.calllogsync">
 
     <uses-permission android:name="android.permission.READ_CALL_LOG" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -17,7 +17,7 @@
         android:theme="@style/Theme.CallHistory"
         android:usesCleartextTraffic="true">
 
-        <receiver android:name="com.markobl.callhistory.AutostartReceiver"
+        <receiver android:name="com.markobl.calllogsync.AutostartReceiver"
             android:enabled="true"
             android:exported="false">
             <intent-filter>
@@ -30,7 +30,7 @@
         </receiver>
 
         <activity
-            android:name="com.markobl.callhistory.MainActivity"
+            android:name="com.markobl.calllogsync.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.CallHistory.NoActionBar">

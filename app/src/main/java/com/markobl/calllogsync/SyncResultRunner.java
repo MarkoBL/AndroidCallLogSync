@@ -1,4 +1,4 @@
-package com.markobl.callhistory;
+package com.markobl.calllogsync;
 
 @FunctionalInterface
 public interface SyncResultRunner {

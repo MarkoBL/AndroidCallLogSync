@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/MainFragment"
-        android:name="com.markobl.callhistory.MainFragment"
+        android:name="com.markobl.calllogsync.MainFragment"
         android:label="@string/main_fragment_label"
         tools:layout="@layout/fragment_main">
 
@@ -15,7 +15,7 @@
 
     <fragment
         android:id="@+id/LogFragment"
-        android:name="com.markobl.callhistory.LogFragment"
+        android:name="com.markobl.calllogsync.LogFragment"
         android:label="@string/action_log"
         tools:layout="@layout/fragment_log">
 
@@ -23,7 +23,7 @@
 
     <fragment
         android:id="@+id/SettingsFragment"
-        android:name="com.markobl.callhistory.SettingsFragment"
+        android:name="com.markobl.calllogsync.SettingsFragment"
         android:label="@string/action_settings"
         >
 

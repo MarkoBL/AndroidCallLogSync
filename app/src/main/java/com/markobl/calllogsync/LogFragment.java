@@ -1,4 +1,4 @@
-package com.markobl.callhistory;
+package com.markobl.calllogsync;
 
 import android.content.Context;
 import android.os.Bundle;
