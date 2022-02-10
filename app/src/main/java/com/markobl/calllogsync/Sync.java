@@ -41,7 +41,7 @@ public class Sync {
 
             long lastId = lastCallLogId;
 
-            final Cursor managedCursor = context.getContentResolver().query(CallLog.Calls.CONTENT_URI, null, "_id > " + lastId, null, null);
+            final Cursor managedCursor = context.getContentResolver().query(CallLog.Calls.CONTENT_URI, null, "_id > " + lastId, null, "_id ASC");
             final int idIndex = managedCursor.getColumnIndex("_id");
             final int numberIndex = managedCursor.getColumnIndex(CallLog.Calls.NUMBER);
             final int typeIndex = managedCursor.getColumnIndex(CallLog.Calls.TYPE);
@@ -88,13 +88,10 @@ public class Sync {
                     item.put("DATE", date);
                     item.put("DURATION", duration);
 
-                    json.put(0, item);
+                    json.put(item);
                 } catch (JSONException ex) {
                     Log.e("SYNC", "" + ex);
                 }
-
-                if(count >= 100)
-                    break;
             }
 
             final Boolean more = managedCursor.moveToNext();
