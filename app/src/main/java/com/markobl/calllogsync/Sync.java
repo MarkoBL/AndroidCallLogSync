@@ -88,7 +88,7 @@ public class Sync {
                     item.put("DATE", date);
                     item.put("DURATION", duration);
 
-                    json.put(item);
+                    json.put(0, item);
                 } catch (JSONException ex) {
                     Log.e("SYNC", "" + ex);
                 }
