@@ -3,6 +3,7 @@ package com.markobl.calllogsync;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
+import androidx.work.Constraints;
 import androidx.work.ExistingPeriodicWorkPolicy;
 import androidx.work.ListenableWorker;
 import androidx.work.OneTimeWorkRequest;
@@ -21,8 +22,8 @@ public class SyncWorker extends Worker {
 
     public static void start(Context context) {
 
-        WorkManager.getInstance(context).enqueueUniquePeriodicWork( "com.markobl.syncworker", ExistingPeriodicWorkPolicy.KEEP, new PeriodicWorkRequest.Builder(
-                SyncWorker.class, 15, TimeUnit.MINUTES, 5, TimeUnit.MINUTES
+        WorkManager.getInstance(context).enqueueUniquePeriodicWork( "com.markobl.syncworker", ExistingPeriodicWorkPolicy.REPLACE, new PeriodicWorkRequest.Builder(
+                SyncWorker.class, 4, TimeUnit.HOURS, 1, TimeUnit.HOURS
         ).build());
 
         WorkManager.getInstance(context).enqueue(new OneTimeWorkRequest.Builder(
@@ -32,7 +33,6 @@ public class SyncWorker extends Worker {
     public Worker.Result doWork() {
 
         final Context context = getApplicationContext();
-
         if(!Sync.isEnabled(context))
             return Worker.Result.success();
 
@@ -41,8 +41,8 @@ public class SyncWorker extends Worker {
 
         Sync.syncCallHistory(context, config, lastId, (syncResult -> {
 
-            if(syncResult.syncResultType == SyncResultType.NOTHING_TO_SYNC)
-                return;
+            //if(syncResult.syncResultType == SyncResultType.NOTHING_TO_SYNC)
+            //    return;
 
             final LogItem logItem = new LogItem(context, syncResult);
             LogItem.addLogItem(context, logItem);

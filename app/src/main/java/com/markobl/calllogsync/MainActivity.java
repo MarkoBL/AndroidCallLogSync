@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
-        SyncWorker.start(getApplicationContext());
+        SyncWorker.start(this);
 
         /*
         final Config config = Config.load(this);

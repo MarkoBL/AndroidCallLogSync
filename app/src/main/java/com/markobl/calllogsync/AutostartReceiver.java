@@ -10,7 +10,7 @@ public class AutostartReceiver extends BroadcastReceiver
     {
         String action = intent.getAction();
         if(action.contains("BOOT")) {
-            SyncWorker.start(context.getApplicationContext());
+            SyncWorker.start(context);
         }
     }
 }

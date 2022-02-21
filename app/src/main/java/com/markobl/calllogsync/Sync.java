@@ -106,7 +106,7 @@ public class Sync {
             final long LastId = lastId;
             final int Count = count;
 
-            new Thread(() -> {
+            Thread t = new Thread(() -> {
 
                 Handler mainHandler = new Handler(context.getMainLooper());
 
@@ -162,7 +162,10 @@ public class Sync {
                     mainHandler.post(() -> syncResultRunner.run(new SyncResult(ex)));
                     //syncResultRunner.run(new SyncResult(ex));
                 }
-            }).start();
+            });
+
+            t.start();
+            t.join();
         }
         catch (Exception ex)
         {
