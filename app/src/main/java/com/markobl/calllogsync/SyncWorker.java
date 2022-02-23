@@ -23,7 +23,7 @@ public class SyncWorker extends Worker {
     public static void start(Context context) {
 
         WorkManager.getInstance(context).enqueueUniquePeriodicWork( "com.markobl.syncworker", ExistingPeriodicWorkPolicy.REPLACE, new PeriodicWorkRequest.Builder(
-                SyncWorker.class, 4, TimeUnit.HOURS, 1, TimeUnit.HOURS
+                SyncWorker.class, 2, TimeUnit.HOURS, 1, TimeUnit.HOURS
         ).build());
 
         WorkManager.getInstance(context).enqueue(new OneTimeWorkRequest.Builder(

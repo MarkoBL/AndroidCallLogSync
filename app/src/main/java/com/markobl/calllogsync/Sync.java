@@ -126,8 +126,8 @@ public class Sync {
 
                     connection.setInstanceFollowRedirects(true);
                     connection.setDoOutput(true);
-                    connection.setConnectTimeout(5000);
-                    connection.setReadTimeout(5000);
+                    connection.setConnectTimeout(25000);
+                    connection.setReadTimeout(25000);
                     connection.connect();
 
                     OutputStream outputStream = connection.getOutputStream();
