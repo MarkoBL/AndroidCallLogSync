@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.work.Constraints;
 import androidx.work.ExistingPeriodicWorkPolicy;
 import androidx.work.ListenableWorker;
+import androidx.work.NetworkType;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
@@ -21,10 +22,13 @@ public class SyncWorker extends Worker {
     }
 
     public static void start(Context context) {
+        Constraints constraints = new Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .build();
 
         WorkManager.getInstance(context).enqueueUniquePeriodicWork( "com.markobl.syncworker", ExistingPeriodicWorkPolicy.REPLACE, new PeriodicWorkRequest.Builder(
                 SyncWorker.class, 2, TimeUnit.HOURS, 1, TimeUnit.HOURS
-        ).build());
+        ).setConstraints(constraints).build());
 
         WorkManager.getInstance(context).enqueue(new OneTimeWorkRequest.Builder(
                 SyncWorker.class).build());

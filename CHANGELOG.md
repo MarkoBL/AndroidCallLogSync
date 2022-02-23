@@ -2,6 +2,7 @@
 
 ## 1.0.3
 - increased connection timeout
+- added network constraint
 
 ## 1.0.2
 - waiting for sync thread in worker
