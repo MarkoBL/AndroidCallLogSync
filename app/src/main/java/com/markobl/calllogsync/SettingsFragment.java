@@ -1,6 +1,7 @@
 package com.markobl.calllogsync;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -10,7 +11,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.PowerManager;
+import android.provider.Settings;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -33,7 +37,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         Config config = Config.load(getActivity());
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        if(config.endpoint != null)
+        if (config.endpoint != null)
             editor.putString("endpoint", config.endpoint.toString());
         else
             editor.putString("endpoint", null);
@@ -59,6 +63,25 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
             String toast = getString(R.string.call_log_required);
             Toast.makeText(getActivity(), toast, Toast.LENGTH_SHORT).show();
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_CALL_LOG}, 0);
+        }
+
+        Activity activity = getActivity();
+        PowerManager powerManager = (PowerManager) activity.getSystemService(Activity.POWER_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (powerManager != null && !powerManager.isIgnoringBatteryOptimizations(activity.getPackageName())) {
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(activity);
+                alertDialog.setTitle(R.string.app_name);
+                alertDialog.setMessage(R.string.batteryopt);
+                alertDialog.setNegativeButton(R.string.no, null);
+                alertDialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Intent intent = new Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
+                        startActivity(intent);
+                    }
+                });
+
+                alertDialog.create().show();
+            }
         }
     }
 

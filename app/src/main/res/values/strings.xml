@@ -45,4 +45,5 @@
     <string name="reset_info">This will reset all sync settings to their initial values. New device token will be generated.</string>
     <string name="reset_info2">Are you sure you want to reset all sync settings?</string>
 
+    <string name="batteryopt">Please disable battery optimization for call log sync.</string>
 </resources>

@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.0.4
+- added dialog to disable battery optimizations
+
 ## 1.0.3
 - increased connection timeout
 - added network constraint
