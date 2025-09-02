@@ -29,7 +29,6 @@ public class LogItemRecyclerViewAdapter extends RecyclerView.Adapter<LogItemRecy
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         return new ViewHolder(FragmentLogBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
-
     }
 
     @Override
