@@ -12,6 +12,10 @@ The name of the device
 `Device-Token` 
 The device token
 
+`Device-Number` 
+The device number (optional)
+
+
 `Test-Run`
 Only sent, when testing a remote endpoint
 

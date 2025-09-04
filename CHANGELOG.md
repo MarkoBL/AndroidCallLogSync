@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.5
+- Warning if app hibernation is active
+- Optional field for phone number
+- German translation
+
 ## 1.0.4
 - added dialog to disable battery optimizations
 
