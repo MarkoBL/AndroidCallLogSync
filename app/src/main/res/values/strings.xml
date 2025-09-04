@@ -6,6 +6,7 @@
     <string name="sync_active">Sync Active</string>
     <string name="last_sync">Last sync: %1$s at %2$s</string>
     <string name="sync_info">Go to settings, setup an remote endpoint for the call log and enable sync.</string>
+    <string name="sync_button">Sync NOW</string>
 
     <string name="main_fragment_label">Call Log Sync</string>
     <string name="settings_fragment_label">Settings</string>
@@ -34,10 +35,11 @@
     <string name="test_title">Test remote endpoint</string>
     <string name="test_info">Send random call log to remote endpoint</string>
 
-    <string name="device_header">Device</string>
-    <string name="name_title">Device Name</string>
-    <string name="token_title">Device Token</string>
-    <string name="token_copied">Device Token copied to clipboard</string>
+    <string name="device_header">Phone</string>
+    <string name="name_title">Phone Name</string>
+    <string name="token_title">Phone Token</string>
+    <string name="number_title">Phone Number</string>
+    <string name="token_copied">Phone Token copied to clipboard</string>
     <string name="last_id_title">Last transmitted call log id</string>
 
     <string name="reset_header">Reset</string>
@@ -45,5 +47,6 @@
     <string name="reset_info">This will reset all sync settings to their initial values. New device token will be generated.</string>
     <string name="reset_info2">Are you sure you want to reset all sync settings?</string>
 
-    <string name="batteryopt">Please disable battery optimization for call log sync.</string>
+    <string name="batteryopt">Please disable battery optimization.</string>
+    <string name="restrictopt">Please disable "Pause app activity if unused".</string>
 </resources>

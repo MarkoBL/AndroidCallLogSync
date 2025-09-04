@@ -78,8 +78,7 @@ public class LogItem {
             SharedPreferences settings = Config.getSharedPreferences(context);
             SharedPreferences.Editor edit = settings.edit();
             edit.putString("log", gson.toJson(logItems));
-            if(logItem.type == SyncResultType.SUCCESS)
-                edit.putString("lastlog", gson.toJson(logItem));
+            edit.putString("lastlog", gson.toJson(logItem));
             edit.apply();
         }
         catch (Exception ex) {

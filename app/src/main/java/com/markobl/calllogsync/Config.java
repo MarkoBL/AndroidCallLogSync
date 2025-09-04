@@ -1,11 +1,16 @@
 package com.markobl.calllogsync;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Build;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 
 import com.google.gson.Gson;
 
@@ -19,14 +24,17 @@ public class Config {
 
     public String deviceName;
     public String deviceToken;
+    public String deviceNumber;
 
     public Map<String, String> additionalHeaders = new HashMap<>();
 
-    public static Config newConfig()
-    {
+    @SuppressLint("HardwareIds")
+    public static Config newConfig(Context context) {
         Config config = new Config();
         config.deviceName = Build.MODEL;
         config.deviceToken = RandomString.getRandomString(32);
+        config.deviceNumber = "";
+
         return  config;
     }
 
@@ -37,9 +45,9 @@ public class Config {
 
     public static void reset(Context context)
     {
-        Config config = Config.newConfig();
+        Config config = Config.newConfig(context);
         config.save(context);
-        Config.setLastCallLogId(context, 0);
+        Config.setLastCallLogId(context, -1);
     }
 
     public static Config load(@NonNull Context context)
@@ -55,6 +63,8 @@ public class Config {
                     config.deviceName = Build.MODEL;
                 if(config.deviceToken == null || config.deviceToken.trim().isEmpty())
                     config.deviceToken = RandomString.getRandomString(32);
+                if(config.deviceNumber == null)
+                    config.deviceNumber = "";
 
                 if(config.additionalHeaders == null)
                     config.additionalHeaders = new HashMap<>();
@@ -66,7 +76,7 @@ public class Config {
             Log.e("CONFIG", "" + ex);
         }
 
-        return newConfig();
+        return newConfig(context);
     }
 
     public boolean save(@NonNull Context context)
@@ -93,7 +103,7 @@ public class Config {
     public static long getLastCallLogId(Context context)
     {
         SharedPreferences settings = getSharedPreferences(context);
-        return  settings.getLong("lastcalllogid", 0);
+        return  settings.getLong("lastcalllogid", -1);
     }
 
     public static void setLastCallLogId(Context context, long lastCallLogId)

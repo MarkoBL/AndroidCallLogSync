@@ -20,12 +20,15 @@ import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.IntentCompat;
+import androidx.core.content.PackageManagerCompat;
+import androidx.core.content.UnusedAppRestrictionsConstants;
 import androidx.preference.EditTextPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
-import androidx.work.OneTimeWorkRequest;
-import androidx.work.WorkManager;
+
+import com.google.common.util.concurrent.ListenableFuture;
 
 import java.net.URL;
 
@@ -44,6 +47,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         editor.putBoolean("sync", Sync.isEnabled(getActivity()));
         editor.putString("name", config.deviceName);
         editor.putString("token", config.deviceToken);
+        editor.putString("number", config.deviceNumber);
         editor.apply();
 
         setPreferencesFromResource(R.xml.root_preferences, rootKey);
@@ -53,6 +57,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         findPreference("endpoint").setOnPreferenceChangeListener(this);
         findPreference("sync").setOnPreferenceChangeListener(this);
         findPreference("name").setOnPreferenceChangeListener(this);
+        findPreference("number").setOnPreferenceChangeListener(this);
 
         findPreference("test").setOnPreferenceClickListener(this);
         findPreference("token").setOnPreferenceClickListener(this);
@@ -83,6 +88,35 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
                 alertDialog.create().show();
             }
         }
+
+        ListenableFuture<Integer> future = PackageManagerCompat.getUnusedAppRestrictionsStatus(activity);
+        future.addListener(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    int status = future.get();
+                    if(status == UnusedAppRestrictionsConstants.API_30 || status == UnusedAppRestrictionsConstants.API_30_BACKPORT || status == UnusedAppRestrictionsConstants.API_31)
+                    {
+                        AlertDialog.Builder alertDialog = new AlertDialog.Builder(activity);
+                        alertDialog.setTitle(R.string.app_name);
+                        alertDialog.setMessage(R.string.restrictopt);
+                        alertDialog.setNegativeButton(R.string.no, null);
+                        alertDialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Intent intent = IntentCompat.createManageUnusedAppRestrictionsIntent(getContext(), getActivity().getPackageName());
+                                startActivityForResult(intent, 0);
+                            }
+                        });
+
+                        alertDialog.create().show();
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+        }, ContextCompat.getMainExecutor(activity));
     }
 
     @Override
@@ -93,6 +127,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
             try {
                 final URL url = new URL((String)newValue);
                 String protocol = url.getProtocol();
+
                 if(protocol.equals("http") || protocol.equals("https")) {
 
                     Toast.makeText(getContext(), getResources().getString(R.string.testing_endpoint), Toast.LENGTH_SHORT).show();
@@ -148,8 +183,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
 
             if(enabled)
             {
-                WorkManager.getInstance(getActivity().getApplicationContext()).enqueue(new OneTimeWorkRequest.Builder(
-                        SyncWorker.class).build());
+                SyncWorker.syncNow(getActivity());
             }
 
             return true;
@@ -160,6 +194,13 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
             config.deviceName = (String)newValue;
             config.save(getActivity());
             return true;
+        }
+        else if (key.equals("number"))
+        {
+            Config config = Config.load(getActivity());
+            config.deviceNumber = (String)newValue;
+            config.save(getActivity());
+            return  true;
         }
 
         return false;

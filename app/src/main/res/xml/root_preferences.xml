@@ -29,6 +29,11 @@
             app:title="@string/name_title"
             app:useSimpleSummaryProvider="true" />
 
+        <EditTextPreference
+            app:key="number"
+            app:title="@string/number_title"
+            app:useSimpleSummaryProvider="true" />
+
         <Preference
             app:key="token"
             app:title="@string/token_title" />

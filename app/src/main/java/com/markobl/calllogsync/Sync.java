@@ -26,20 +26,36 @@ public class Sync {
 
     public static boolean isEnabled(@NonNull final Context context) {
         SharedPreferences settings = Config.getSharedPreferences(context);
-        return settings.getBoolean("syncenabled", false);
+        return settings.getBoolean("sync-enabled", false);
     }
 
     public static void setEnabled(@NonNull final Context context, boolean enabled) {
         SharedPreferences settings = Config.getSharedPreferences(context);
         SharedPreferences.Editor edit = settings.edit();
-        edit.putBoolean("syncenabled", enabled);
+        edit.putBoolean("sync-enabled", enabled);
         edit.apply();
+    }
+
+    public  static long getLastCallLogId(Context context)
+    {
+        final Cursor managedCursor = context.getContentResolver().query(CallLog.Calls.CONTENT_URI, null, null, null, "_id DESC LIMIT 1");
+        final int idIndex = managedCursor.getColumnIndex("_id");
+
+        long id = -1;
+        while (managedCursor.moveToNext())
+            id = Math.max(managedCursor.getLong(idIndex), id);
+
+        managedCursor.close();
+
+        return id;
     }
 
     public static void syncCallHistory(@NonNull final Context context, @NonNull final Config config, final long lastCallLogId, @NonNull final SyncResultRunner syncResultRunner) {
         try {
 
             long lastId = lastCallLogId;
+            if(lastId == -1)
+                lastId = getLastCallLogId(context) - 1;
 
             final Cursor managedCursor = context.getContentResolver().query(CallLog.Calls.CONTENT_URI, null, "_id > " + lastId, null, "_id ASC");
             final int idIndex = managedCursor.getColumnIndex("_id");
@@ -121,6 +137,8 @@ public class Sync {
                     connection.setRequestProperty("Accept", "application/json");
                     connection.setRequestProperty("Device-Name", config.deviceName);
                     connection.setRequestProperty("Device-Token", config.deviceToken);
+                    connection.setRequestProperty("Device-Number", config.deviceNumber);
+
                     for(Map.Entry<String, String> entry : config.additionalHeaders.entrySet())
                         connection.setRequestProperty(entry.getKey(), entry.getValue());
 

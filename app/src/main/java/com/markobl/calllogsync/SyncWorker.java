@@ -1,8 +1,10 @@
 package com.markobl.calllogsync;
 
 import android.content.Context;
+import android.content.Intent;
 
 import androidx.annotation.NonNull;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.work.Constraints;
 import androidx.work.ExistingPeriodicWorkPolicy;
 import androidx.work.ListenableWorker;
@@ -17,21 +19,31 @@ import java.util.concurrent.TimeUnit;
 
 public class SyncWorker extends Worker {
 
+    public static final String BROADCAST_SYNC_DONE = "com.markobl.calllogsync.sync-done";
+
     public SyncWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
     }
 
-    public static void start(Context context) {
+    public static void registerWorker(Context context) {
         Constraints constraints = new Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .build();
 
-        WorkManager.getInstance(context).enqueueUniquePeriodicWork( "com.markobl.syncworker", ExistingPeriodicWorkPolicy.REPLACE, new PeriodicWorkRequest.Builder(
-                SyncWorker.class, 2, TimeUnit.HOURS, 1, TimeUnit.HOURS
-        ).setConstraints(constraints).build());
+        PeriodicWorkRequest work =new PeriodicWorkRequest.Builder(
+                SyncWorker.class, 15, TimeUnit.MINUTES).setConstraints(constraints).build();
+
+        WorkManager.getInstance(context).enqueueUniquePeriodicWork("sync", ExistingPeriodicWorkPolicy.KEEP, work);
+    }
+
+    public  static  void syncNow(Context context)
+    {
+        Constraints constraints = new Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .build();
 
         WorkManager.getInstance(context).enqueue(new OneTimeWorkRequest.Builder(
-                SyncWorker.class).build());
+                SyncWorker.class).setConstraints(constraints).build());
     }
 
     public Worker.Result doWork() {
@@ -45,15 +57,17 @@ public class SyncWorker extends Worker {
 
         Sync.syncCallHistory(context, config, lastId, (syncResult -> {
 
-            //if(syncResult.syncResultType == SyncResultType.NOTHING_TO_SYNC)
-            //    return;
-
             final LogItem logItem = new LogItem(context, syncResult);
             LogItem.addLogItem(context, logItem);
+
+            Intent intent = new Intent(BROADCAST_SYNC_DONE);
+            LocalBroadcastManager bm = LocalBroadcastManager.getInstance(getApplicationContext());
+            bm.sendBroadcast(intent);
 
             if(syncResult.syncResultType == SyncResultType.SUCCESS)
             {
                 Config.setLastCallLogId(context, syncResult.lastCallLogId);
+
                 if(syncResult.more)
                     doWork();
             }
