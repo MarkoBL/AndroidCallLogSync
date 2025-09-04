@@ -1,0 +1,49 @@
+<resources>
+    <string name="app_name">Call Log Sync</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_log">Sync Log</string>
+    <string name="action_about">About</string>
+    <string name="sync_active">Sync Active</string>
+    <string name="last_sync">Last sync: %1$s at %2$s</string>
+    <string name="sync_info">Go to settings, setup an remote endpoint for the call log and enable sync.</string>
+
+    <string name="main_fragment_label">Call Log Sync</string>
+    <string name="settings_fragment_label">Settings</string>
+    <string name="log_fragment_label">Sync Log</string>
+
+    <string name="call_log_required">Access to call log required</string>
+    <string name="sync_success">Synced %1$d entries from the call log.</string>
+    <string name="sync_nothing">Sync: no new entries in the call log.</string>
+    <string name="sync_failure">Sync failed: %1$s (%2$d).</string>
+    <string name="sync_exception">Sync exception: %1$s</string>
+
+    <string name="sync_header">Sync</string>
+    <string name="sync_alert_failed">Sync failure</string>
+    <string name="sync_alert_success">Sync success</string>
+    <string name="ok">OK</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
+    <string name="setup_title">Setup remote endpoint</string>
+    <string name="setup_info">Learn to setup a remote endpoint</string>
+    <string name="endpoint_title">Remote endpoint</string>
+    <string name="sync_title">Enable Sync</string>
+    <string name="invalid_endpoint">Invalid remote endpoint. Must start with http(s)://</string>
+    <string name="no_endpoint">No remote endpoint set</string>
+    <string name="testing_endpoint">Sending random call log to remote endpoint</string>
+    <string name="test_title">Test remote endpoint</string>
+    <string name="test_info">Send random call log to remote endpoint</string>
+
+    <string name="device_header">Device</string>
+    <string name="name_title">Device Name</string>
+    <string name="token_title">Device Token</string>
+    <string name="token_copied">Device Token copied to clipboard</string>
+    <string name="last_id_title">Last transmitted call log id</string>
+
+    <string name="reset_header">Reset</string>
+    <string name="device_reset">Reset Device</string>
+    <string name="reset_info">This will reset all sync settings to their initial values. New device token will be generated.</string>
+    <string name="reset_info2">Are you sure you want to reset all sync settings?</string>
+
+    <string name="batteryopt">Please disable battery optimization for call log sync.</string>
+</resources>
