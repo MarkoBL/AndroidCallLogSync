@@ -1,8 +1,10 @@
 package com.markobl.calllogsync;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.os.Bundle;
 import android.os.Handler;
 import android.provider.CallLog;
 import android.util.Log;
@@ -38,7 +40,12 @@ public class Sync {
 
     public  static long getLastCallLogId(Context context)
     {
-        final Cursor managedCursor = context.getContentResolver().query(CallLog.Calls.CONTENT_URI, null, null, null, "_id DESC LIMIT 1");
+        Bundle queryArgs = new Bundle();
+
+        queryArgs.putInt(ContentResolver.QUERY_ARG_LIMIT, 1);
+        queryArgs.putString(ContentResolver.QUERY_ARG_SQL_SORT_ORDER, "_id DESC");
+
+        final Cursor managedCursor = context.getContentResolver().query(CallLog.Calls.CONTENT_URI, null, queryArgs, null);
         final int idIndex = managedCursor.getColumnIndex("_id");
 
         long id = -1;
@@ -57,12 +64,18 @@ public class Sync {
             if(lastId == -1)
                 lastId = getLastCallLogId(context) - 1;
 
-            final Cursor managedCursor = context.getContentResolver().query(CallLog.Calls.CONTENT_URI, null, "_id > " + lastId, null, "_id ASC");
+            Bundle queryArgs = new Bundle();
+            queryArgs.putString(ContentResolver.QUERY_ARG_SQL_SORT_ORDER, "_id ASC");
+            queryArgs.putString(ContentResolver.QUERY_ARG_SQL_SELECTION, "_id > " + lastId);
+
+            final Cursor managedCursor = context.getContentResolver().query(CallLog.Calls.CONTENT_URI, null, queryArgs, null);
             final int idIndex = managedCursor.getColumnIndex("_id");
             final int numberIndex = managedCursor.getColumnIndex(CallLog.Calls.NUMBER);
             final int typeIndex = managedCursor.getColumnIndex(CallLog.Calls.TYPE);
             final int dateIndex = managedCursor.getColumnIndex(CallLog.Calls.DATE);
             final int durationIndex = managedCursor.getColumnIndex(CallLog.Calls.DURATION);
+
+            final boolean test = config.additionalHeaders.containsKey("Test-Run");
 
             final JSONArray json = new JSONArray();
 
@@ -113,7 +126,7 @@ public class Sync {
             final Boolean more = managedCursor.moveToNext();
             managedCursor.close();
 
-            if (count == 0)
+            if (count == 0 && !test)
             {
                 syncResultRunner.run(new SyncResult());
                 return;

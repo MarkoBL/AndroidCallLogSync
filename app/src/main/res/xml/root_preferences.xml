@@ -45,6 +45,10 @@
     </PreferenceCategory>
     <PreferenceCategory app:title="@string/reset_header">
         <Preference
+            app:key="lock"
+            app:title="@string/device_lock" />
+
+        <Preference
             app:key="reset"
             app:title="@string/device_reset" />
     </PreferenceCategory>

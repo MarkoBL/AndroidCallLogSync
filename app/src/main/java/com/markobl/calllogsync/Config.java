@@ -25,6 +25,7 @@ public class Config {
     public String deviceName;
     public String deviceToken;
     public String deviceNumber;
+    public boolean deviceLocked = false;
 
     public Map<String, String> additionalHeaders = new HashMap<>();
 

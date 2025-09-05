@@ -7,10 +7,10 @@ android {
 
     defaultConfig {
         applicationId "com.markobl.calllogsync"
-        minSdk 21
+        minSdk 26
         targetSdk 32
-        versionCode 8
-        versionName "1.0.5"
+        versionCode 9
+        versionName "1.0.6"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

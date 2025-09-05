@@ -5,7 +5,7 @@
     <string name="action_about">Über</string>
     <string name="sync_active">Transfer ist aktiv</string>
     <string name="last_sync">Letzter Transfer: %1$s um %2$s</string>
-    <string name="sync_info">Gehe in die Einstellungen, setup an remote endpoint for the call log and enable sync.</string>
+    <string name="sync_info">Gehe in die Einstellungen, richte einen Endpunkt ein und aktiviere den Transfer.</string>
     <string name="sync_button">JETZT </string>
 
     <string name="main_fragment_label">Anrufe-Transfer</string>
@@ -42,8 +42,10 @@
     <string name="token_copied">Telefon-Schlüssel in die zwischenablage kopiert.</string>
     <string name="last_id_title">Letzte übertragene Anrufer-Id</string>
 
-    <string name="reset_header">Zurücksetzen</string>
-    <string name="device_reset">Gerät zurücksetzen</string>
+    <string name="reset_header">Einstellungen</string>
+    <string name="device_lock">Einstellungen sperren</string>
+    <string name="device_lock_info">Alle Einstellungen werden gesperrt und können nicht mehr geändert werden. Es ist nur noch das Zurücksetzen möglich.</string>
+    <string name="device_reset">Einstellungen zurücksetzen</string>
     <string name="reset_info">Alle Einstellungen werden zurück gesetzt. Es wird ein neuer Telefon-Schlüssel generiert.</string>
     <string name="reset_info2">Sollen alle Einstellungen zurückgesetzt werden?</string>
 

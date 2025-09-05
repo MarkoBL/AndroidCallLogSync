@@ -1,6 +1,7 @@
 # Changelog
 
 ## 1.0.5
+- New option to lock the settings
 - Warning if app hibernation is active
 - Optional field for phone number
 - German translation

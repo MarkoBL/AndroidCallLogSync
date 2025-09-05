@@ -42,8 +42,10 @@
     <string name="token_copied">Phone Token copied to clipboard</string>
     <string name="last_id_title">Last transmitted call log id</string>
 
-    <string name="reset_header">Reset</string>
-    <string name="device_reset">Reset Device</string>
+    <string name="reset_header">Settings</string>
+    <string name="device_lock">Lock Settings</string>
+    <string name="device_lock_info">All settings are locked and can no longer be changed. Only a reset is still possible.</string>
+    <string name="device_reset">Reset Settings</string>
     <string name="reset_info">This will reset all sync settings to their initial values. New device token will be generated.</string>
     <string name="reset_info2">Are you sure you want to reset all sync settings?</string>
 

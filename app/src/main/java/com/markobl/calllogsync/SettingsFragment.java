@@ -44,6 +44,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
             editor.putString("endpoint", config.endpoint.toString());
         else
             editor.putString("endpoint", null);
+
         editor.putBoolean("sync", Sync.isEnabled(getActivity()));
         editor.putString("name", config.deviceName);
         editor.putString("token", config.deviceToken);
@@ -63,6 +64,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         findPreference("token").setOnPreferenceClickListener(this);
         findPreference("reset").setOnPreferenceClickListener(this);
         findPreference("setup").setOnPreferenceClickListener(this);
+        findPreference("lock").setOnPreferenceClickListener(this);
+
 
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_CALL_LOG) != PackageManager.PERMISSION_GRANTED) {
             String toast = getString(R.string.call_log_required);
@@ -122,6 +125,17 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         String key = preference.getKey();
+
+        Config config = Config.load(getActivity());
+        if(config.deviceLocked)
+        {
+            if(!key.equals("sync"))
+            {
+                Toast.makeText(getContext(), getResources().getString(R.string.device_lock_info), Toast.LENGTH_SHORT).show();
+                return  false;
+            }
+        }
+
         if(key.equals("endpoint"))
         {
             try {
@@ -132,7 +146,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
 
                     Toast.makeText(getContext(), getResources().getString(R.string.testing_endpoint), Toast.LENGTH_SHORT).show();
 
-                    Config config = Config.load(getActivity());
                     config.endpoint = url;
                     config.additionalHeaders.put("Test-Run", "1");
 
@@ -171,7 +184,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         }
         else if (key.equals("sync"))
         {
-            Config config = Config.load(getActivity());
             if(config.endpoint == null)
             {
                 Toast.makeText(getContext(), getResources().getString(R.string.no_endpoint), Toast.LENGTH_SHORT).show();
@@ -190,14 +202,12 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         }
         else if (key.equals("name"))
         {
-            Config config = Config.load(getActivity());
             config.deviceName = (String)newValue;
             config.save(getActivity());
             return true;
         }
         else if (key.equals("number"))
         {
-            Config config = Config.load(getActivity());
             config.deviceNumber = (String)newValue;
             config.save(getActivity());
             return  true;
@@ -209,9 +219,20 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
     @Override
     public boolean onPreferenceClick(Preference preference) {
         String key = preference.getKey();
+
+        Config config = Config.load(getActivity());
+        if(config.deviceLocked)
+        {
+            if(!(key.equals("reset") || key.equals("test") || key.equals("sync") || key.equals("setup") || key.equals("token")))
+            {
+                Toast.makeText(getContext(), getResources().getString(R.string.device_lock_info), Toast.LENGTH_SHORT).show();
+                return  false;
+            }
+        }
+
+
         if(key.equals("test"))
         {
-            Config config = Config.load(getActivity());
             if(config.endpoint == null)
             {
                 Toast.makeText(getContext(), getResources().getString(R.string.no_endpoint), Toast.LENGTH_SHORT).show();
@@ -238,7 +259,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
         }
         else if (key.equals("token"))
         {
-            Config config = Config.load(getActivity());
             ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
             ClipData clip = ClipData.newPlainText("Device Token", config.deviceToken);
             clipboard.setPrimaryClip(clip);
@@ -257,6 +277,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
 
                 resetDialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+
                         Sync.setEnabled(getActivity(), false);
                         Config.reset(getActivity());
                         LogItem.reset(getActivity());
@@ -269,6 +290,24 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Prefer
 
             });
             alertDialog.create().show();
+        }
+        else if (key.equals("lock"))
+        {
+            AlertDialog.Builder resetDialog = new AlertDialog.Builder(getActivity());
+            resetDialog.setTitle(R.string.app_name);
+            resetDialog.setMessage(R.string.device_lock_info);
+            resetDialog.setNegativeButton(R.string.no, null);
+
+            resetDialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+
+                    Config newConfig = Config.load(getActivity());
+                    newConfig.deviceLocked = true;
+                    newConfig.save(getActivity());
+                }
+            });
+
+            resetDialog.create().show();
         }
         else if (key.equals("setup"))
         {
